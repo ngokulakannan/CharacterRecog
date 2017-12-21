@@ -42,7 +42,7 @@ class NeuralNetwork:
 		return self.Sigmoid_Function(z_vector)
 	
 	def Sigmoid_Function(self,z_vector):
-	""" Activation function which uses the formula 1/(1+e^(-z))  """
+	""" Activation function which uses the formula 1/(1+e^(-z)) .. """
 	return (1/(1+np.exp(-z_vector)))
 	
 	
