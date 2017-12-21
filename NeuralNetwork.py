@@ -46,6 +46,7 @@ class NeuralNetwork:
 	return (1/(1+np.exp(-z_vector)))
 	
 	
+	
 	def Feed_Forward(self):
 		print("")
 	
