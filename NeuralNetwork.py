@@ -1,4 +1,5 @@
 import numpy as np;
+import math as m;
 
 class NeuralNetwork:
 	
@@ -24,7 +25,12 @@ class NeuralNetwork:
 		self.output_Weights=np.random.randint(-25,25,size=(no_output_nodes,no_hidden_nodes+1))
 		self.output_Layer=np.zeros((no_output_nodes,1))
 		
+		#cost function 
+		self.Cost_Without_Regularization=0
+		self.Cost=0
 	
+	
+		
 	def Get_Input_Layer(self,input_vector):
 		"""
 		Get input layer vector and stores it in input_Layer variable
@@ -51,7 +57,7 @@ class NeuralNetwork:
 	
 	
 	
-	def Feed_Forward(self):
+	def Feed_Forward(self,real_output_layer):
 		"""
 		computes the activation function of the next layer.
 		"""
@@ -72,8 +78,51 @@ class NeuralNetwork:
 		
 		#Output layer computation
 		self.output_Layer[:,0]=self.Compute_Next_Layer(self.output_Weights,self.hidden_Layers[:,self.no_Hidden_layers-1].reshape(self.no_Hidden_nodes,1))
-					
 		
+
+		#compute first part of cost function	
+		self.Cost_Function_Without_Regularization(real_output_layer)
+	
+	
+	def Cost_Function_Without_Regularization(self,real_output_layer):
+		"""
+		This function computes the cost function without regularization.
+		That is, y*log(h(x)) + (1-y)*(1-log(h(x)))
+		"""
+		assert(np.size(output_Layer,0)!=np.size(real_output_layer,0)),"Real and estimated output layers are not equal in size"
+		for index in range(np.size(output_Layer,0)):
+			self.Cost_Without_Regularization+=((real_Output_Layer[index] * m.log10(output_Layer[index])) + ((1-real_Output_Layer[index]) * m.log10(1-output_Layer[index])))
+			
+	def Regularization(self,lamda,no_of_input):
+		"""
+		This function computes the regularization part of the cost function of neural network
+		Regularization to regularize the weights of all layers using lamda - the regularization term 
+		lamda : regularization factor
+		no_of_input : number of input to the neural network
+		"""
+		total_input_weight=np.sum(self.input_Weights**2)
+		total_output_weight=np.sum(self.output_Weights**2)
+		total_hidden_weight=0
+		if(no_Hidden_layers>1):
+		total_hidden_weight=np.sum(self.hidden_Weights**2)
+		total_weight = total_hidden_weight + total_input_weight + total_output_weight
+		Regularization_value=(lamda/(2*no_of_input))*total_weight
+		return Regularization_value
+		
+	def Cost_Function(self,lamda,no_of_input):
+		"""
+		cost function to compute J{theta}
+		lamda : regularization factor
+		no_of_input : number of input to the neural network
+		"""
+		self.Cost= (-1/no_of_input) * self.Cost_Without_Regularization + Regularization(lamda,no_of_input) 
+		
+		
+		
+	
+	
+	
+	
 	
 	
 	
