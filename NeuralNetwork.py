@@ -89,9 +89,9 @@ class NeuralNetwork:
 		This function computes the cost function without regularization.
 		That is, y*log(h(x)) + (1-y)*(1-log(h(x)))
 		"""
-		assert(np.size(output_Layer,0)!=np.size(real_output_layer,0)),"Real and estimated output layers are not equal in size"
-		for index in range(np.size(output_Layer,0)):
-			self.Cost_Without_Regularization+=((real_Output_Layer[index] * m.log10(output_Layer[index])) + ((1-real_Output_Layer[index]) * m.log10(1-output_Layer[index])))
+		assert(np.size(self.output_Layer,0)!=np.size(real_output_layer,0)),"Real and estimated output layers are not equal in size"
+		for index in range(np.size(self.output_Layer,0)):
+			self.Cost_Without_Regularization+=((real_Output_Layer[index] * m.log10(self.output_Layer[index])) + ((1-real_Output_Layer[index]) * m.log10(1-self.output_Layer[index])))
 			
 	def Regularization(self,lamda,no_of_input):
 		"""
@@ -104,10 +104,10 @@ class NeuralNetwork:
 		total_output_weight=np.sum(self.output_Weights**2)
 		total_hidden_weight=0
 		if(no_Hidden_layers>1):
-		total_hidden_weight=np.sum(self.hidden_Weights**2)
-		total_weight = total_hidden_weight + total_input_weight + total_output_weight
-		Regularization_value=(lamda/(2*no_of_input))*total_weight
-		return Regularization_value
+			total_hidden_weight=np.sum(self.hidden_Weights**2)
+			total_weight = total_hidden_weight + total_input_weight + total_output_weight
+			regularization_value=(lamda/(2*no_of_input))*total_weight
+		return regularization_value
 		
 	def Cost_Function(self,lamda,no_of_input):
 		"""
@@ -117,7 +117,7 @@ class NeuralNetwork:
 		"""
 		self.Cost= (-1/no_of_input) * self.Cost_Without_Regularization + Regularization(lamda,no_of_input) 
 		
-		
+	
 		
 	
 	
