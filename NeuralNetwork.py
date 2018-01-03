@@ -117,7 +117,7 @@ class NeuralNetwork:
 		"""
 		self.Cost= (-1/no_of_input) * self.Cost_Without_Regularization + Regularization(lamda,no_of_input) 
 		
-	
+	def Backpropogation(self):
 		
 	
 	
