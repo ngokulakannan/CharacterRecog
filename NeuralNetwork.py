@@ -28,9 +28,25 @@ class NeuralNetwork:
 		#cost function 
 		self.Cost_Without_Regularization=0
 		self.Cost=0
-	
-	
 		
+		#output_error
+		self.output_Error=np.zeros((no_output_nodes,1))
+		self.hidden_Error=np.zeros((no_hidden_nodes,no_hidden_layers))
+	
+	def Find_Error(self,real_output_layer):
+		"""
+		Find errors in each layer.
+		Formula: δ(l)=((Θ(l))T δ(l+1)) .∗ a(l) .* (1−a(l))
+		"""
+		self.output_Error=self.output_Layer-real_output_layer
+		
+		self.hidden_Error[:,no_Hidden_layers-1]=(hidden_Weights[no_Hidden_layers-1,1:,:].T.dot( self.output_Error)) * (self.hidden_Layers[:,no_Hidden_layers-1] * (1-self.hidden_Layers[:,no_Hidden_layers-1]))
+		if(self.no_Hidden_layers>1):
+			for layer in range(self.no_Hidden_layers, 0, -1):
+				self.hidden_Error[:,layer]=
+			
+
+			
 	def Get_Input_Layer(self,input_vector):
 		"""
 		Get input layer vector and stores it in input_Layer variable
@@ -91,7 +107,7 @@ class NeuralNetwork:
 		"""
 		assert(np.size(self.output_Layer,0)!=np.size(real_output_layer,0)),"Real and estimated output layers are not equal in size"
 		for index in range(np.size(self.output_Layer,0)):
-			self.Cost_Without_Regularization+=((real_Output_Layer[index] * m.log10(self.output_Layer[index])) + ((1-real_Output_Layer[index]) * m.log10(1-self.output_Layer[index])))
+			self.Cost_Without_Regularization+=((real_output_layer[index] * m.log10(self.output_Layer[index])) + ((1-real_output_layer[index]) * m.log10(1-self.output_Layer[index])))
 			
 	def Regularization(self,lamda,no_of_input):
 		"""
@@ -103,7 +119,7 @@ class NeuralNetwork:
 		total_input_weight=np.sum(self.input_Weights**2)
 		total_output_weight=np.sum(self.output_Weights**2)
 		total_hidden_weight=0
-		if(no_Hidden_layers>1):
+		if(self.no_Hidden_layers>1):
 			total_hidden_weight=np.sum(self.hidden_Weights**2)
 			total_weight = total_hidden_weight + total_input_weight + total_output_weight
 			regularization_value=(lamda/(2*no_of_input))*total_weight
@@ -117,6 +133,8 @@ class NeuralNetwork:
 		"""
 		self.Cost= (-1/no_of_input) * self.Cost_Without_Regularization + Regularization(lamda,no_of_input) 
 		
+	
+			
 	def Backpropogation(self):
 		
 	
